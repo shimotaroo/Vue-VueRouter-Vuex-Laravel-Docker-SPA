@@ -17,16 +17,24 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 export default {
     computed: {
-        isLogin () {
-            return this.$store.getters['auth/check']
-        }
+        ...mapState({
+            apiState: state => state.auth.apiState
+        }),
+        ...mapGetters({
+            isLogin: 'auth/check'
+        })
     },
     methods: {
         async logout () {
             await this.$store.dispatch('auth/logout')
-            this.$router.push('/login')
+
+            if (this.apiState) {
+                this.$router.push('/login')
+            }
         }
     }
 }
