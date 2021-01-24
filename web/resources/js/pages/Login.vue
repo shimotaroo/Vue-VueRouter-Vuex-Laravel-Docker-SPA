@@ -108,7 +108,7 @@ export default {
         ...mapState({
             apiStatus: state => state.auth.apiStatus,
             loginErrors: state => state.auth.loginErrorMessages,
-            registerError: state => state.auth.registerErrorMessages
+            registerErrors: state => state.auth.registerErrorMessages
         })
     },
     methods: {
