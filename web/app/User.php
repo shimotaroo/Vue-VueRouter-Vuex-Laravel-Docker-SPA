@@ -19,13 +19,9 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
+    // JSONに含める情報を定義
+    protected $visible = [
+        'name',
     ];
 
     /**
