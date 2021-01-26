@@ -48,8 +48,6 @@ export default {
                 return false
             }
 
-            console.log(response.data);
-
             this.photos = response.data.data 
             this.currentPage = response.data.current_page 
             this.lastPage = response.data.last_page 

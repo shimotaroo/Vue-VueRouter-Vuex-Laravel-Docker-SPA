@@ -9,7 +9,7 @@
         </figure>
         <Router-link
             class="photo__overlay"
-            :to="'/photos/${item.id}'"
+            :to="`/photos/${item.id}`"
             :title="'View the photo by ${item.owner.name}'"
         >
             <div class="photo__controls">
@@ -20,7 +20,7 @@
                     <i class="icon icon-md-heart"></i>12
                 </button>
                 <a 
-                    :href="'/photos/${item.id}/download'" 
+                    :href="`/photos/${item.id}/download`" 
                     class="photo__action"
                     title="Download Photo"
                     @click.stop
