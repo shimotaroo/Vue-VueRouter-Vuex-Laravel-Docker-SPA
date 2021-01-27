@@ -15,9 +15,11 @@
             <div class="photo__controls">
                 <button 
                     class="photo__action photo__action--like"
+                    :class="{ 'photo__action--liked' : item.liked_by_user }"
                     title="Like Photo"
+                    @click.prevent="like"
                 >
-                    <i class="icon icon-md-heart"></i>12
+                    <i class="icon icon-md-heart"></i>{{ item.likes_count }}
                 </button>
                 <a 
                     :href="`/photos/${item.id}/download`" 
@@ -42,6 +44,12 @@ export default {
             type: Object,
             required: true
         }
+    },
+    like () {
+        this.$emit('like', {
+            id: this.item.id,
+            liked: this.item.liked_by_user
+        })
     }
 }
 </script>

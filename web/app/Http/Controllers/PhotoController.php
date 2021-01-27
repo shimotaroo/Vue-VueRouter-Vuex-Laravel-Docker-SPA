@@ -65,7 +65,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::with(['owner'])
+        $photos = Photo::with(['owner', 'likes'])
             ->orderBy(Photo::CREATED_AT, 'desc')->paginate();
 
         // モデルクラスのインスタンスなどを return すると、自動的に JSON に変換されてレスポンスが生成
@@ -100,12 +100,13 @@ class PhotoController extends Controller
      */
     public function show(string $id)
     {
-        $photo = Photo::where('id', $id)->with(['owner', 'comments.author'])->first();
+        $photo = Photo::where('id', $id)
+            ->with(['owner', 'comments.author', 'likes'])->first();
 
         return $photo ?? abort(404);
     }
 
-/**
+    /**
      * コメント投稿
      * @param Photo $photo
      * @param StoreComment $request
@@ -123,4 +124,42 @@ class PhotoController extends Controller
 
         return response($new_comment, 201);
     }
+
+    /**
+     * いいね
+     * @param string $id
+     * @return array
+     */
+    public function like(string $id)
+    {
+        $photo = Photo::where('id', $id)->with('likes')->first();
+
+        if (!$photo) {
+            abort(404);
+        } 
+
+        $photo->likes()->detach(Auth::user()->id);
+        $photo->likes()->attach(Auth::user()->id);
+
+        return ['photo_id' => $id];
+    }
+
+    /**
+     * いいね解除
+     * @param string $id
+     * @return array
+     */
+    public function unlike(string $id)
+    {
+        $photo = Photo::where('id', $id)->with('likes')->first();
+
+        if (!$photo) {
+            abort(404);
+        } 
+
+        $photo->likes()->detach(Auth::user()->id);
+
+        return ['photo_id' => $id];
+    }
+
 }
